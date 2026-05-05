@@ -29,6 +29,20 @@ const HomeContent = () => {
     // invocando a função dentro do useEffect
     fetchGames();
   }, []) // dependencia do useEffect
+  // FUNÇÃO DE EXCLUSÃO
+  const deleteGame = async (gameId) => {
+    try {
+      const response = await axios.delete(`http://localhost:4000/games/${gameId}`);
+      if (response.status === 204) {
+        alert("O jogo foi excluído com sucesso!");
+        // Atualizando o estado removendo o jogo excluído da página
+        setGames(games.filter((game) => game._id !== gameId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <div className={styles.homeContent}>
@@ -63,6 +77,20 @@ const HomeContent = () => {
                     style: "currency",
                     currency: "BRL"
                   })}</li>
+                  {/* Botão de Deletar */}
+                  <button className={styles.btnDel} onClick={() => {
+                    const confirmacao = window.confirm(
+                      "Deseja mesmo excluir o jogo?"
+                    );
+                    // Se o valor for verdadeiro
+                    if (confirmacao) {
+                      // invocando a função de deletar
+                      deleteGame(game._id)
+                    }
+                  }}>
+                    Deletar
+                  </button>
+
                 </div>
               </ul>
             ))}
