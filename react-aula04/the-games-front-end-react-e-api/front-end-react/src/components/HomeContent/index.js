@@ -5,10 +5,16 @@ import axios from "axios"; // Biblioteca que permite consumir a API
 // Importando os hooks useState e useEffect (hook - serve p ser usado dentro de componentes)
 // useEffect - efeito colateral do componente (função)(é o que eu chamo primeiro após o componente ser renderizado(toda vez que tem uma mudança de estado))
 import { useState, useEffect } from "react";
+import EditContent from "../EditContent";
 
 const HomeContent = () => {
   // Criando um estado para a lista de jogos
   const [games, setGames] = useState([]); // Estado inicial = Array vazio (ficará assim até eu ir na api)
+
+  // Criando um estado para o jogo que será alterado
+  const [selectedGame, setSelectedGame] = useState(null)
+
+  // Criando estado para carregamento 
   const [loading, setLoading] = useState(true);
   // hook useEffect -> efeito colateral do componente
   useEffect(() => {
@@ -41,6 +47,16 @@ const HomeContent = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+  // FUNÇÃO PARA ABRIR O MODAL DE EDIÇÃO
+  const openEditModal = (game) => {
+    // Atualizando o estado do jogo que será alterado
+    setSelectedGame(game);
+  }
+  // FUNÇÃO QUANDO O MODAL FOR FECHADO
+  const closeEditModal = () => {
+    // Limpando o estado do jogo selecionado
+    setSelectedGame(null);
   }
 
   return (
@@ -90,6 +106,11 @@ const HomeContent = () => {
                   }}>
                     Deletar
                   </button>
+                  {/* Botão de editar */}
+                  <button className={styles.btnEdit}
+                  onClick={() => openEditModal(game)}>
+                    Editar
+                  </button>
 
                 </div>
               </ul>
@@ -97,6 +118,10 @@ const HomeContent = () => {
           </div>
           )}
         </div>
+        {/* Renderização condicional para exibir o modal de edição */}
+        { selectedGame && (
+            <EditContent game={selectedGame} />
+        )}
       </div>
     </>
   );
