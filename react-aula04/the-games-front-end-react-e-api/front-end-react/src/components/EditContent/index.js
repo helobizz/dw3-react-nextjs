@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import styles from "@/components/EditContent/EditContent.module.css";
 import axios from "axios";
 
-const EditContent = ({ game }) => {
+const EditContent = ({ game, onClose }) => { // Recebendo a Props {game, onclose}
 // Criando estados para armazenar os dados do formulário
-    const [id, setId] = useState("")
+  const [id, setId] = useState("")
   const [title, setTitle] = useState("");
   const [platform, setPlatform] = useState("");
   const [genre, setGenre] = useState("");
@@ -31,7 +31,8 @@ const EditContent = ({ game }) => {
             {/* CARD EDIÇÃO */}
             <div className={styles.editModal} id={styles.editModal}>
                 <div className={styles.editContent}>
-                    <span className={styles.modalClose}>
+                    {/* Botão de fechar o modal */}
+                    <span className={styles.modalClose} onClick={onClose}>
                         &times;
                     </span>
                     {/* TITLE */}
@@ -41,14 +42,16 @@ const EditContent = ({ game }) => {
                     <form id="editForm">
                         <input 
                         type="hidden" 
-                        name="id" />
+                        name="id" 
+                        value={id}/>
                         <input
                             type="text"
                             name="title"
                             placeholder="Insira o novo título"
                             className="inputPrimary"
                             required
-                            
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                         />
                         <input
                             type="text"
@@ -56,7 +59,8 @@ const EditContent = ({ game }) => {
                             placeholder="Insira a nova plataforma do jogo"
                             className="inputPrimary"
                             required
-                            
+                            value={platform}
+                            onChange={(e) => setPlatform(e.target.value)}
                             
                         />
                         <input
@@ -65,7 +69,8 @@ const EditContent = ({ game }) => {
                             placeholder="Insira o gênero do jogo"
                             className="inputPrimary"
                             required
-                            
+                            value={genre}
+                            onChange={(e) => setGenre(e.target.value)}
                             
                         />
                         <input
@@ -74,7 +79,8 @@ const EditContent = ({ game }) => {
                             placeholder="Insira a classificação do jogo"
                             className="inputPrimary"
                             required
-                            
+                            value={rating}
+                            onChange={(e) => setRating(e.target.value)}
                         />
                         <input
                             type="number"
@@ -82,7 +88,8 @@ const EditContent = ({ game }) => {
                             placeholder="Insira o novo ano"
                             className="inputPrimary"
                             required
-                            
+                            value={year}
+                            onChange={(e) => setYear(e.target.value)}
                         />
                         <input
                             type="text"
@@ -90,10 +97,17 @@ const EditContent = ({ game }) => {
                             placeholder="Insira o novo preço"
                             className="inputPrimary"
                             required
-                            
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                         />
                         <input type="submit" value="Alterar" className="btnPrimary" />
                     </form>
+                    {title}<br/>
+                    {platform}<br/>
+                    {genre}<br/>
+                    {rating}<br/>
+                    {year}<br/>
+                    {price}<br/>
                 </div>
             </div>
         </>

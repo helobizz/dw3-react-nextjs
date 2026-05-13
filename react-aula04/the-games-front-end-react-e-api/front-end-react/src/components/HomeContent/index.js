@@ -120,7 +120,8 @@ const HomeContent = () => {
         </div>
         {/* Renderização condicional para exibir o modal de edição */}
         { selectedGame && (
-            <EditContent game={selectedGame} />
+          // Criando PROPS e mandando uma função onClose={closedEditModal}
+            <EditContent game={selectedGame} onClose={closeEditModal}/>
         )}
       </div>
     </>
