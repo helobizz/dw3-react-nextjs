@@ -6,6 +6,8 @@ import axios from "axios"; // Biblioteca que permite consumir a API
 // useEffect - efeito colateral do componente (função)(é o que eu chamo primeiro após o componente ser renderizado(toda vez que tem uma mudança de estado))
 import { useState, useEffect } from "react";
 import EditContent from "../EditContent";
+// Importando o axiosConfig
+import { getAxiosConfig } from "@/services/authService";
 
 const HomeContent = () => {
   // Criando um estado para a lista de jogos
@@ -22,7 +24,7 @@ const HomeContent = () => {
     // Função para buscar os jogos na API
     const fetchGames = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/games")
+        const response = await axios.get("http://localhost:4000/games", getAxiosConfig())
         // console.log(response)
         // Passando a lista de jogos para o estado
         setGames(response.data.games) // guardei no estado somente a lista de jogos
