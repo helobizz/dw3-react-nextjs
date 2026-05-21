@@ -24,7 +24,7 @@ const HomeContent = () => {
     // Função para buscar os jogos na API
     const fetchGames = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/games", getAxiosConfig())
+        const response = await axios.get("http://localhost:4000/games")
         // console.log(response)
         // Passando a lista de jogos para o estado
         setGames(response.data.games) // guardei no estado somente a lista de jogos
@@ -40,7 +40,7 @@ const HomeContent = () => {
   // FUNÇÃO DE EXCLUSÃO
   const deleteGame = async (gameId) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/games/${gameId}`);
+      const response = await axios.delete(`http://localhost:4000/games/${gameId}`, getAxiosConfig());
       if (response.status === 204) {
         alert("O jogo foi excluído com sucesso!");
         // Atualizando o estado removendo o jogo excluído da página

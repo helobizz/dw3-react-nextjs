@@ -2,6 +2,7 @@ import styles from "@/components/CreateContent/CreateContent.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router"; // hook para fazer redirecionamentos 
 import axios from "axios";
+// Importando axiosConfig
 import { getAxiosConfig } from "@/services/authService";
 
 const CreateContent = () => {

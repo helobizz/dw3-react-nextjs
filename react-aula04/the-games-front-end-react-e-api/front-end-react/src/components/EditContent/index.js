@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "@/components/EditContent/EditContent.module.css";
 import axios from "axios";
+// Importando o axiosConfig
+import { getAxiosConfig } from "@/services/authService";
 
-const EditContent = ({ game, onClose }) => { // Recebendo a Props {game, onclose}
+
+const EditContent = ({ game, onClose, handleUpdate }) => { // Recebendo a Props {game, onclose}
 // Criando estados para armazenar os dados do formulário
   const [id, setId] = useState("")
   const [title, setTitle] = useState("");
@@ -18,13 +21,45 @@ const EditContent = ({ game, onClose }) => { // Recebendo a Props {game, onclose
     if(game) {
         setId(game._id)
         setTitle(game.title)
-        setPlatform(game.platform)
+        setPlatform(game.descriptions.platform)
         setGenre(game.descriptions.genre)
         setRating(game.descriptions.rating)
         setYear(game.year)
         setPrice(game.price)
     }
   }, [game]); // Dependência do useEffect. É o que faz o useEffect ser executado novamente, quando aquela informação (o jogo) for alterado
+
+  // FUNÇÃO DE UPDATE
+  const handleSubmit = async (e) => {
+    // Evitando que o formulário recarregue a página
+    e.preventDefault()
+    // Criando o json (objeto) com as informações do jogo
+    const updatedGame = {
+        // DESESTRUTURAÇÃO
+        title,
+        year,
+        price,
+        descriptions: {
+            platform,
+            genre,
+            rating
+        }
+    };
+    // ENVIANDO PARA A API
+    try {
+        const response = await axios.put(
+            `http://localhost:4000/games/${id}`,
+            updatedGame, getAxiosConfig()
+        );
+        if (response.status === 200) {
+            alert("O jogo foi alterado com sucesso!")
+            // PASSANDO O JOGO ALTERADO PARA O COMPONENTE PAI (HOMECONTENT)
+            handleUpdate(response.data.game);
+        }
+    } catch (error) {
+        console.log(error)
+    }
+  }
 
     return (
         <>
@@ -39,7 +74,7 @@ const EditContent = ({ game, onClose }) => { // Recebendo a Props {game, onclose
                     <div className="title">
                         <h2>Editar jogo</h2>
                     </div>
-                    <form id="editForm">
+                    <form id="editForm" onSubmit={handleSubmit}>
                         <input 
                         type="hidden" 
                         name="id" 
@@ -102,12 +137,6 @@ const EditContent = ({ game, onClose }) => { // Recebendo a Props {game, onclose
                         />
                         <input type="submit" value="Alterar" className="btnPrimary" />
                     </form>
-                    {title}<br/>
-                    {platform}<br/>
-                    {genre}<br/>
-                    {rating}<br/>
-                    {year}<br/>
-                    {price}<br/>
                 </div>
             </div>
         </>

@@ -27,3 +27,9 @@ export const login = async (email, password) => {
     }
 }
 // export - já cria a função exportando
+
+// FUNÇÃO que realiza o logout
+export const logout = (router) => { // vai receber o useRouter através da função (vai vir de forma externa)
+    localStorage.removeItem("token");
+    router.push("/")
+}
